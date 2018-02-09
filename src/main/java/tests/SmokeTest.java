@@ -2,6 +2,8 @@ package tests;
 
 
 import org.testng.annotations.Test;
+
+import data.TestCaseProvider;
 import io.restassured.response.Response;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -16,7 +18,7 @@ public class SmokeTest extends BaseTest {
 		 assertThat(res.getStatusCode(), is(equalTo(200)));
 	}
 	
-	@Test
+	@Test(dataProvider = "Test Cases", dataProviderClass = TestCaseProvider.class)
 	public void addNewPost() {
 		Response res = null;
 		res = client.makeRequest("post", "https://jsonplaceholder.typicode.com/posts", "{\"title\": \"jonnyalexfoo\", \"body\": \"bar\", \"userId\": 5 }");
