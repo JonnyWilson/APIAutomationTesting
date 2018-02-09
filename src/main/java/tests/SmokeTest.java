@@ -12,9 +12,16 @@ public class SmokeTest extends BaseTest {
 	@Test
 	public void checkAPIAvailable() {
 		 Response res = null;
-		 res = client.makeRequest("get", "https://jsonplaceholder.typicode.com/posts");
-		 res.getStatusCode();
+		 res = client.makeRequest("get", "https://jsonplaceholder.typicode.com/posts", "");
 		 assertThat(res.getStatusCode(), is(equalTo(200)));
+	}
+	
+	@Test
+	public void addNewPost() {
+		Response res = null;
+		res = client.makeRequest("post", "https://jsonplaceholder.typicode.com/posts", "{\"title\": \"jonnyalexfoo\", \"body\": \"bar\", \"userId\": 5 }");
+		System.out.print(res.getBody().asString());
+		assertThat(res.getStatusCode(), is(equalTo(201)));
 	}
 	
 }

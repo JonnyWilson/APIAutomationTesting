@@ -1,14 +1,15 @@
 package tests;
 
-import org.testng.annotations.BeforeSuite;
 
-import com.mycompany.apiendpointtestproject.RestClient;
+import org.testng.annotations.*;
+
+import Utils.RestClient;
 
 public class BaseTest {
 	protected static RestClient client;
 	
-	@BeforeSuite
+	@BeforeTest
 	public void setup() {
-		RestClient client = new RestClient();
+		client = new RestClient();
 	}
 }

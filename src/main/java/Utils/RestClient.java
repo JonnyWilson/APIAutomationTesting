@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.apiendpointtestproject;
+package Utils;
 
 import io.restassured.RestAssured.*;
+import io.restassured.internal.path.json.JSONAssertion;
 import io.restassured.matcher.RestAssuredMatchers.*;
 import io.restassured.response.Response;
 
@@ -13,7 +14,11 @@ import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.hasSize;
 
 import org.hamcrest.Matchers.*;
+import org.json.JSONObject;
 import org.junit.*;
+
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 /**
  *
@@ -26,7 +31,7 @@ public class RestClient {
         
     }
     
-    public Response makeRequest(String httpMethod, String endpointName)
+    public Response makeRequest(String httpMethod, String endpointName, String body)
     {
         Response response = null;
         switch(httpMethod)
@@ -36,7 +41,7 @@ public class RestClient {
                 break;
             
             case "post":
-                response = postRequest();
+                response = postRequest(endpointName, body);
                 break;
                 
             case "put":
@@ -53,14 +58,24 @@ public class RestClient {
     public Response getRequest(String endpointName)
     {
         Response response = get(endpointName);
-        
         return response;
     }
     
-    public Response postRequest()
+    public Response postRequest(String endpointName, String body)
     {
-        Response response = null;
-        return response;
+
+    
+    		JsonParser parser = new JsonParser();
+    		JsonObject o = parser.parse(body).getAsJsonObject();
+        	System.out.print(o);
+            Response response =
+                    given().log().all()
+            		.contentType("application/json")
+            		.body(o)
+            		.when()
+            		.post(endpointName);
+                    return response;
+    
     }
     
     public Response putRequest()
