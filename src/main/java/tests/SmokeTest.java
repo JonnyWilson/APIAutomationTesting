@@ -19,9 +19,9 @@ public class SmokeTest extends BaseTest {
 	}
 	
 	@Test(dataProvider = "Test Cases", dataProviderClass = TestCaseProvider.class)
-	public void addNewPost() {
+	public void addNewPost(String httpMethod, String endPointName, String body) {
 		Response res = null;
-		res = client.makeRequest("post", "https://jsonplaceholder.typicode.com/posts", "{\"title\": \"jonnyalexfoo\", \"body\": \"bar\", \"userId\": 5 }");
+		res = client.makeRequest(httpMethod, endPointName, body);
 		System.out.print(res.getBody().asString());
 		assertThat(res.getStatusCode(), is(equalTo(201)));
 	}
