@@ -17,8 +17,10 @@ import org.hamcrest.Matchers.*;
 import org.json.JSONObject;
 import org.junit.*;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
 
 /**
  *
@@ -63,7 +65,10 @@ public class RestClient {
     
     public Response postRequest(String endpointName, String body)
     {
-
+    		
+	    	Gson gson = new Gson();
+	    	String temp = gson.toJson(body);
+	    	//body = gson.toJson(body);
     
     		JsonParser parser = new JsonParser();
     		JsonObject o = parser.parse(body).getAsJsonObject();
