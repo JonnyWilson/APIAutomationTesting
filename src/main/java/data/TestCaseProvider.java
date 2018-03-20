@@ -24,7 +24,7 @@ public class TestCaseProvider {
 		ArrayList<Object[]> testsArrayList = new ArrayList<Object[]>();
 		//Object[][] testObject = new Object[][];
 		 
-		FileInputStream file = new FileInputStream(new File("data.xlsx"));
+		FileInputStream file = new FileInputStream(new File("C:\\Users\\Jonny\\Documents\\APIAutomationTesting\\data.xlsx"));
 		Workbook workbook = new XSSFWorkbook(file);
 		
 		Sheet sheet = workbook.getSheetAt(0);
