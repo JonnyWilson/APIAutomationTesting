@@ -5,23 +5,12 @@
  */
 package Utils;
 
-import io.restassured.RestAssured.*;
-import io.restassured.internal.path.json.JSONAssertion;
-import io.restassured.matcher.RestAssuredMatchers.*;
 import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.*;
-import static org.hamcrest.Matchers.hasSize;
 
-import org.hamcrest.Matchers.*;
-import org.json.JSONObject;
-import org.junit.*;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonReader;
 
 /**
  *
@@ -29,17 +18,20 @@ import com.google.gson.stream.JsonReader;
  */
 public class RestClient {
  
-    public void RestClient()
+	//Constructor
+    public RestClient()
     {    	
         
     }
     
+    //Method to determine which http verb to use, and call appropriate function
     public Response makeRequest(String httpMethod, String endpointName, String body)
     {
         Response response = null;
         switch(httpMethod)
         {
             case "get":
+            	//GET request doesn't take body, given a body is not needed to be sent
                 response = getRequest(endpointName);
                 break;
             
@@ -48,11 +40,12 @@ public class RestClient {
                 break;
                 
             case "put":
-                response = putRequest();
+                response = putRequest(endpointName, body);
                 break;
                 
             case "delete":
-                response = deleteRequest();
+            	//DELETE request doesn't take body, given a body is not needed to be sent
+                response = deleteRequest(endpointName);
                 break;
         }               
         return response;
@@ -60,36 +53,48 @@ public class RestClient {
     
     public Response getRequest(String endpointName)
     {
-        Response response = get(endpointName);
+        //Response is returned, once GET request is made
+    	Response response = get(endpointName);
         return response;
     }
     
     public Response postRequest(String endpointName, String body)
     {
-	    	
-    	 	final GsonBuilder gsonBuilder = new GsonBuilder();
-    		JsonParser parser = new JsonParser();
-    		JsonObject o = parser.parse(body).getAsJsonObject();
-        	System.out.print(o);
-            Response response =
-                    given().log().all()
-            		.contentType("application/json")
-            		.body(o)
-            		.when()
-            		.post(endpointName);
-                    return response;
-    
-    }
-    
-    public Response putRequest()
-    {
-        Response response = null;
+	    //Response is returned with POST request successful
+    	//Parser instantiated to get body as JSON object
+		JsonParser parser = new JsonParser();
+		JsonObject o = parser.parse(body).getAsJsonObject();
+        //Then Response is created from request, and is also logged to console for analytical purposes
+		Response response =
+                given().log().all()
+        		.contentType("application/json")
+        		.body(o)
+        		.when()
+        		.post(endpointName);
         return response;
     }
     
-    public Response deleteRequest()
+    public Response putRequest(String endpointName, String body)
     {
-        Response response = null;
+    	//Response is returned with PUT request successful
+    	//Response is returned with POST request successful
+    	//Parser instantiated to get body as JSON object
+		JsonParser parser = new JsonParser();
+		JsonObject o = parser.parse(body).getAsJsonObject();
+		//Then Response is created from request, and is also logged to console for analytical purposes
+		Response response =
+                given().log().all()
+        		.contentType("application/json")
+        		.body(o)
+        		.when()
+        		.put(endpointName);
+        return response;
+    }
+    
+    public Response deleteRequest(String endpointName)
+    {
+    	//Response is returned with DELETE request successful	
+    	Response response = delete(endpointName);
         return response;
     }
 }
